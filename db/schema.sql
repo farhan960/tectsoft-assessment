@@ -1,3 +1,13 @@
+create table if not exists public.items (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  description text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists items_created_at_id_idx
+  on public.items (created_at desc, id asc);
+
 -- Favorites: one row per user + item (edge function writes via service role).
 create table if not exists public.favorites (
   id uuid primary key default gen_random_uuid(),
